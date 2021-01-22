@@ -1,0 +1,43 @@
+\section*{Results}
+\subsection*{GWAS on the latent representation}
+\label{subsec_GWAS}
+
+\begin{figure*}[ht!]
+\includegraphics[width=\textwidth]{figs/gwas/GWAS_Experiment1_z0_scaled_meshes.png}
+\label{fig:manhattan_LV_latent}
+\caption{Manhattan plot for LV latent variable $z_0$ along with a set of synthetic LV shapes produced by making $z_i=\lambda \delta_{i0}$ for $\lambda\in\{0, \pm 1, \pm 2, \pm 3\}$. This latent variable showed to be associated to LV sphericity index.}
+\end{figure*}
+
+The comparison of the outcome of GWAS performed on PCA- and CoMA-derived features reveals that the latter method encounters several significant associations with the genotype; in contrast, PCA, despite its comparable reconstruction performance, yields none. % In other words, CoMA allows extracting phenotypes with some level of heritability.
+
+CoMA experiments and subsequent GWAS were carried out using scaled and unscaled meshes. In both cases, results for $n_z=8$ are reported in the main text. Our results suggest that the Kullback-Leibler regularisation term in the loss function is effective when it comes to obtaining interpretable and heritable low-dimensional representations. Indeed, the experiments performed with non-variational CoMA produced no significant association on the GWAS; with the variational CoMA we found shape latent variables with a significant genetic signal. These results are described in the following.
+
+For scaled meshes, the variational CoMA yielded a latent variable, which we will call $z_0$, with a single Bonferroni-significant genetic locus in chromosome 6 ($p=10^{-18}$). The associated Manhattan plots are shown in figure \ref{fig:manhattan_LV_latent}, along with the corresponding change in shape produced by the latent variable tested. The morphological impact of $z_0$ can be seen to be associated with the sphericity of the LV. The seven remaining latent variables yielded no significant association on the GWAS.
+
+%(sarco/endoplasmic reticulum Ca$^{2+}$-ATPase)which transports calcium from the cytosol into the SR1. 
+%In its dephosphorylated state, PLN lowers the affinity of SERCA for Ca$^{2+}$, thereby inhibiting calcium uptake. Phosphorylation of PLN at serine 16 by PKA (protein kinase A) or threonine 17 by CaMKII (Ca$^{2+}$/calmodulin-dependent protein kinase II) relieves PLN-mediated inhibition of SERCA, thereby increasing SERCA activity and subsequent uptake of calcium. 
+We have been able to map this association to gene PLN (phospholamban) with high confidence, based on the literature on genetics of cardiac phenotypes. 
+PLN plays a crucial role in cardiomyocyte calcium handling by acting as a primary regulator of the SERCA protein (sarco/endoplasmic reticulum Ca$^{2+}$-ATPase), which transports calcium from the cytosol into the SR1. In its dephosphorylated state, PLN lowers the affinity of SERCA for Ca$^{2+}$, thereby inhibiting calcium uptake. Phosphorylation of PLN at serine 16 by PKA (protein kinase A) or threonine 17 by CaMKII (Ca$^{2+}$/calmodulin-dependent protein kinase II) relieves PLN-mediated inhibition of SERCA, thereby increasing SERCA activity and subsequent uptake of calcium. The PLN-SERCA interaction is essential for contraction and relaxation of the heart, and is under the regulation of the $\beta$-adrenergic receptor pathway to adapt cardiac output to physiological needs. \cite{maclennan_2003}
+%\textcolor{red}{This is probably too much biological detail for CVPR, so I will cut it down to the essential, but I leave it for now for your reference.}
+
+\begin{figure*}[ht!]
+\includegraphics[width=\textwidth]{figs/gwas/GWAS_Experiment2_z1_unscaled_meshes.png}
+\label{fig:manhattan_LV_latent_unscaled}
+\caption{Manhattan plot for LV latent variable $z_1$ along with a set of synthetic LV shapes produced by making $z_i=\lambda \delta_{i1}$ for $\lambda\in\{0, \pm 1, \pm 2, \pm 3\}$. Changes in this variable were found to associate with different mitral orientations.}
+\end{figure*}
+
+Mutations in PLN have a well-established relationship with dilated cardiomyopathy (DCM) \cite{ref_Eijgenraam}. Besides a recent study \cite{ref_pirruccello}, to the best of our knowledge this gene had not been reported in a GWAS of non-disease phenotypes. In \cite{ref_pirruccello}, PLN was found to be associated with LV end-diastolic and end-systolic volumes (LVEDV and LVESV). Interestingly, latent variable $z_0$ yielded a $p$-value lower than the associations reported therein ($10^{-16}$ and $10^{-10}$ for LVEDV and LVESV, respectively). Also, the PLN locus was the only association found for $z_0$, whereas for LV volumes the number of genome-wide significant associations is much higher. 
+While this can be regarded as a drawback of our unsupervised approach (since it did not either capture the phenotypic variability associated to those other genetic loci, or detect new ones), our results also suggest that the method allowed to more accurately pinpoint the phenotypic variation associated with PLN. \textcolor{gray}{We could say more on this regard: if you adjust the LVEDV for $z_0$, run GWAS again and see that the PLN signal disappears, then we can link that signal to $z_0$-mediated change of volume.}
+Also interestingly, the shape variation associated with high positive values of $z_0$ follows the usual cardiac remodelling linked to DCM \cite{ref_dcm}
+
+For unscaled meshes, several genome-wide significant associations were found, after further adjusting the $p$-value threshold for the number of latent variables tested ($n_z=8$ in this case). As observed for scaled meshes, all the associations belonged to a single latent variable, which we will call $z_1$. The Manhattan plots and synthetic shapes produced by varying $z_1$ around the mean shape are displayed in figure \ref{fig:manhattan_LV_latent_unscaled}. Visual inspection of the effect of varying $z_1$ on the reconstructed LV shape indicates that the most salient feature is a change in mitral orientation.
+
+% Notably, the strongest SNP association ($p=10^{-13}$) was found in chromosome 5 and had not been reported in the recent GWAS of LV phenotypes \cite{ref_nayaung, ref_pirruccello}. This SNP lies within the coding region of gene ARHGAP26. However, no further evidence was found in the literature supporting that this is the mediating gene. Likewise for the locus in chromosome 8 regarding gene CSMD1 ($p=10^{-10}$). Chromosome 6 contains two significant loci: one of them corresponds again to gene PLN, although with a weaker association this time ($p=10^{-8}$); the other locus is located 20 megabase pairs away from the previous ($p=10^{-9})$. The locus at chromosome 2 ($p=10^{-9}$) has been reported in  \cite{ref_nayaung, ref_pirruccello} and mapped to gene TTN. This gene encodes for protein titin, which is  responsible  for  the  sarcomere  assembly of the myocytes, which determines stretching, contraction and passive stiffness of the myocardium \cite{granzier_giant_2004}. Validation and interpretation of the genetic loci found will require further investigation.
+
+\subsection*{Relation to traditional indices}
+\textcolor{gray}{Spearman correlation against volume, mass, sphericity, etc. Run GWAS of traditional indices after adjusting for latent features}
+
+\subsection*{Heritability analysis}
+\textcolor{gray}{Run LD-score regression or GCTA-GREML to estimate heritability of the latent features.}
+
+\subsection*{Transcriptome-wide associations studies (TWAS)}

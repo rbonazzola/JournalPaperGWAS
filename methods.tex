@@ -1,0 +1,133 @@
+\appendix
+\section{Methods}
+Figure \ref{fig:flowchart} summarises the proposed workflow. The details of each step are outlined in subsequent subsections. First, we extract a mesh representation of the anatomical structures. In this case, we extracted 3D meshes representing the LV from CMR images of the UK Biobank database using a fully automatic segmentation method \cite{ref_rahman}. We then learn a low-dimensional representation of the 3D meshes which captures anatomical variations using an encoder-decoder model. All meshes are then projected to this latent space to derive a small number of shape descriptors (or latent variables) for each mesh. These features are finally used in GWAS to discover genetic variants associated with shape patterns. 
+
+
+
+\subsection{Description of the data}
+The proposed framework can be used to discover novel associations between genetic variations and morphological changes in anatomical structures. In this work, we showcase its potential in the context of cardiac images acquired within the UK Biobank (UKB) project (data accession number \ACCESSIONNUMBER). The UKB is a prospective cohort study that between 2006 and 2010 recruited around half a million volunteers across the United Kingdom, aged 40-69 years old at the time of recruitment \cite{ref_ukbb}. This sample aims to represent the whole UK population. The project collected a vast amount of phenotypic information about its participants, and also linked them to their electronic health records (EHR). The collected data includes, among others, genetic data from single-nucleotide polymorphism (SNP) microarrays for all the individuals, and also CMR data for a subset of them (which as of the time of this writing is of over 40,000 individuals but is planned to reach 100,000 by 2023). These datasets are described in \cite{ref_ukbb_genetics} and \cite{ref_ukbb_cmr}, respectively.
+
+\subsubsection{CMR data}
+The CMR imaging protocol used to obtain the raw imaging data is described in \cite{ref_ukbb_cmr}. 
+%\paragraph{Segmentation algorithm.}
+We employed an automatic segmentation method \cite{ref_rahman} to segment the LV in the CMR images. This method generates a set of registered 3D meshes, i.e. meshes with the same number of vertices and the same connectivity between them. There is one mesh per subject and per time point. In this work, we only use the LV mesh at end-diastole. The LV mesh for subject $i$, $i=1,...,N$, can then be represented as pairs $(\textbf{S}_i, A)$, where $\textbf{S}_i=\big[\,x_{i1}\,y_{i1}\,z_{i1}\,|\,...\,|\,x_{iM}\,y_{iM}\,z_{iM}\,\big]\in \mathbb{R}^{M\times 3}$ is the shape and $A$ is the adjacency matrix of the mesh. We also define, for convenience, the vectorised form of the shapes $\textbf{s}_i=\big(x_{i1},y_{i1},z_{i1},...,x_{iM},y_{iM},z_{iM}\big)\in \mathbb{R}^{3M}$. The adjacency matrix is such that $A_{jk}=1$ if and only if there is an edge between vertices $j$ and $k$ and $A_{jk}=0$ otherwise. The cardiac meshes also have the property of being triangular, so $A_{jk}=A_{kl}=1\implies A_{jl}=1$ for all vertices $i$, $j$ and $k$.
+
+\subsubsection{Genotype data}
+SNP microarray data is available for all the individuals in the UKB cohort. This microarray covers \NCALLS\, genetic variants including SNPs and short insertions and deletions. 
+%SNPs are single base-pair changes in the DNA sequence that occur with relatively high frequency in the human genome, and represent the most common form of genetic variation in humans. 
+The SNP microarrays used in UKB has been described in \cite{ref_ukbb_genetics}.
+
+The usual quality control steps on the genetic data were performed. These consisted in filtering out variants with MAF $<$ 1\% (on which set of individuals?), Hardy-Weinberg equilibrium $p$-value less than $10^{-6}$ and high call missingness rates (greater than 10\%). 
+
+%% Should this go here?
+% Likewise, individuals with high genotype missingness rates were excluded from the analysis.
+
+
+%From these genotyped markers, an augmented set of \NIMP variants was imputed. 
+% The GWAS was performed across this dataset, in particular on the autosomes (chromosomes 1 through 22). The sex chromosomes (X and Y) require a special treatment and are left for future investigation.
+
+%% This explanation is unnecessary in the target journal
+% SNPs are typically biallelic, meaning that there are two commonly occurring alleles in the population for that specific base-pair, the most frequent one usually considered as the reference allele. The genotype at each SNP is encoded as 0, 1 or 2 depending on the number of copies (or dosage) of the non-reference allele that the individual carries in his or her maternal and paternal chromosomes. 
+
+% latter set, filtering by a minor allele frequency (MAF) threshold of \MAFTHR  and a HWE $p$-value threshold of \HWEPVAL, ending up with genetic variants.
+
+\subsection{Unsupervised representation learning for genetic discovery}
+\label{results:dimensionality_reduction}
+% \missingfigure[figwidth=6cm]{Testing a long text string}
+%\paragraph{Mesh pre-processing.} 
+Given the set of meshes representing the anatomical structure of interest (LV meshes), the pose-sensitive parameters like translation and rotation were removed using generalised Procrustes analysis. Moreover, since we are interested in understanding the relation between genetic variation and shape patterns, we performed different experiments to understand the impact of mesh scaling in the resulting associations. We considered two scenarios, with and without scaling the meshes: we will use the nomenclature \{$\textbf{S}_{i}^{\text{unscaled}}\}_{i=1}^{N}$ for the set of meshes that preserve the scale of the original image, whereas the $\textbf{S}_{i}^{\text{scaled}}$ meshes are computed as $\textbf{S}_{i}^{\text{scaled}}/\bar{S}_i$, with $\bar{S}_i=(1/M)\sum_{\ell=1}^{M}(x_{i\ell}^2+y_{i\ell}^2+z_{i\ell}^2)^{\frac{1}{2}}$; however, this superscript will be dropped for convenience until we discuss the results for each case, since what follows is similar for both.
+
+Given a set of 3D shapes $\mathbb{S}=\{\textbf{S}_i\}_{i=1}^{N}$, we derive the mean shape and the shape covariance matrix $\textbf{C}$:
+
+\begin{equation}
+\bar{\textbf{S}}=\frac{1}{N}\sum_{i=1}^{N}{\textbf{S}},
+\end{equation}
+
+\begin{equation}
+\bar{\textbf{s}}=\frac{1}{N}\sum_{i=1}^{N}{\textbf{s}},
+\end{equation}
+
+\begin{equation}
+\textbf{C}=\frac{1}{N-1}\sum_{i=1}^{N}({\textbf{s}}_i-\bar{\textbf{s}})({\textbf{s}}_i-\bar{\textbf{s}})^t.
+\end{equation}
+
+Here we propose to learn a reduced set of features that best describe cardiac shape using convolutional mesh-autoencoders (CoMA). We will compare the proposed approach with the well-known method of principal component analysis (PCA). While in PCA only vectorized 3D point clouds $\textbf{s}_i$ will be provided as input (therefore ignoring the data structure and topology), convolutional mesh-autoencoders leverage topological information about the connectivity between the vertices and allows for learning more powerful non-linear representations. However, both approaches can be thought of as particular cases of the encoder-decoder paradigm.
+
+In such a paradigm, there is a pair of encoding and decoding functions, $E_{\theta}:\mathbb{R}^{3M}\rightarrow\mathbb{R}^{n_z}$ and $D_{\phi}:\mathbb{R}^{n_z}\rightarrow\mathbb{R}^{3M}$ that are parameterised by a set of learnable coefficients $\theta$ and $\phi$, respectively. $n_z\in\mathbb{N}$ is the size of the latent space, and it is usually chosen so that $n_z\ll M$ (hence the dimensionality reduction). 
+
+Optimal parameters $\theta^*$ and $\phi^*$ for reconstruction can be estimated by making the composite function $D_{\phi} \circ E_{\theta}$ as close to the identity function $I$ as possible over the training set $\mathbb{S}_\text{train}\subset\mathbb{S}$, using some reasonable measure of reconstruction error $L_{\text{rec}}$ (examples of which are the $L_1$ norm, the $L_2$ norm or the mean squared error MSE) along with a regularisation term $\Omega$, which will account for additional constraints that we want to impose on the model. That is to say, we want to minimise the following function with respect to $\phi$ and $\theta$: 
+
+\begin{equation}
+L(\mathbb{S}_\text{train}|\theta, \phi)=
+L_{\text{rec}}(\mathbb{S}_\text{train}|\theta, \phi)+
+\beta\Omega(\mathbb{S}_\text{train}|\theta, \phi).
+\label{eq_loss_function}
+\end{equation}
+
+\noindent where $\beta\in\mathbb{R_{\geq 0}}$ is a weighting coefficient for the regularisation term. $\textbf{z}_i:= E_{\theta^*}  (\textbf{S}_i)\in\mathbb{R}^{n_z}$ would then be a low-dimensional representation of the shape $\textbf{S}_i$, whereas $\hat{\textbf{S}}_i:=\big(D_{\phi^*} \circ E_{\theta^*}\big)(\textbf{S}_i)$ is the associated reconstructed shape.
+
+\subsubsection{Principal component analysis.}
+PCA is a standard linear technique for dimensionality reduction \cite{pearson_pca}. In terms of the framework detailed above, it can be obtained by requiring $D$ and $E$ to be linear transformations and using the $L_2$ norm, besides imposing an orthogonality constraint on the latent vectors \cite{goodfellow-et-al-2016}.
+
+The idea is to find a basis of vectors  $\mathcal{B}_{n_z}=\{\textbf{v}_i\}_{i=1}^{n_z}\subset\mathbb{R}^{3M}$
+for a fixed $n_z < 3M$, such that the $n_z$-dimensional linear subspace generated by $\mathcal{B}_{n_z}$ captures as much of the data variability as possible. It can be shown that such a basis corresponds to the $n_z$ eigenvectors of  $\textbf{C}$ with the largest eigenvalues; i.e. if $\textbf{C}=U^{t}\Lambda U$ where $\Lambda_{ij}=\delta_{ij}\lambda_i$ and $\lambda_i \geq \lambda_j$ if $i\leq j$, then $\mathcal{B}_{n_z}=\{{U\textbf{e}_i}\}_{i=1}^{n_z}$.
+$\delta_{ij}$ is the Kronecker delta, which equals 1 if $i=j$ and 0 otherwise.
+
+\subsubsection{Convolutional mesh autoencoder}
+In an autoencoder, both the encoding and decoding functions are feed-forward neural networks.
+Inspired by recent works on unsupervised geometric deep learning \cite{ref_coma} for facial meshes, we propose to construct a convolutional mesh-autoencoder which uses spectral convolutions \cite{ref_spectral_graph_conv} to learn non-linear and low-dimensional representations of cardiac mesh structures. Here each layer of the encoder and decoder implements convolution operations parameterised on the graph Laplacian, to leverage information about the local context of each vertex. In order to learn global features, a hierarchical approach is used where each layer of the encoder and decoder implements downsampling and upsampling operations, respectively. 
+Since the vertices are not in a rectangular grid, the usual convolution, pooling and unpooling operations defined for such topology (usually employed in image analysis) are not adequate for this task and need to be suitably adapted. There are several methods that have been proposed to do this \cite{ref_bronstein_geom_DL}, which can be mainly classified in two broad groups: spatial or spectral. The approach proposed in this work belongs to the latter category, which relies on expressing the features in the Fourier basis of the graph, as explained below.
+
+\paragraph{Spectral convolutions.} The Laplace-Beltrami operator $\mathcal{L}$ (or, more simply, the Laplacian) of a graph with adjacency matrix $A$ is defined as $\mathcal{L}:=D-A$, where $D$ is the degree matrix, i.e. a diagonal matrix with $D_{ii}:=\sum_{j}A_{ij}$ being the number of edges that connect to vertex $i$. The Fourier basis of the graph can be obtained by diagonalising the Laplace operator, $\mathcal{L}=U^t\Lambda U$. The columns of $U$ constitute the Fourier basis, and the operation of convolution $\star$ for a graph can be defined in the following manner:
+
+\begin{equation}
+x\star y :=U(U^tx\odot U^ty),
+\end{equation}{}
+
+\noindent where $\odot$ is the element-wise product (also known as Hadamard product). Spectral methods rely on this definition of convolution and differ from one another in the specific filter used. In this work, a parameterisation proposed in \cite{ref_spectral_graph_conv} will be used. 
+Said method is based on the Chebyshev family of polynomials $\{T_i\}$. The kernel $g_\xi$ is defined as:
+
+\begin{equation}
+g_{\xi}(\mathcal{L})=\sum_{i=1}^{K}\xi_i T_i(\mathcal{L}),
+\label{eq_chebyshev_filter}
+\end{equation}
+
+\noindent where $K$ is the highest degree of the polynomials considered (in this work $K=6$). Chebyshev polynomials have the advantage of being computable recursively through the relation $T_i(x)=xT_{i-1}(x)-T_{i-2}(x)$ and the base cases $T_1(x)=1$ and $T_2(x)=x$. It is also worth mentioning that the filter described by equation \ref{eq_chebyshev_filter}, despite its spectral formulation, has the characteristic of being local.
+
+\paragraph{Autoencoder.} The downsampling and upsampling operations used in this study were proposed in \cite{ref_coma} based on a surface simplification algorithm proposed in \cite{ref_quadric_error}. These operations are defined before training each layer, using a single template shape. Here we utilise the mean shape $\mathbf{\bar{S}}$ as a template.
+
+In each layer of the encoder, the downsampling operation generates a new triangular mesh (with its corresponding new Laplacian), such that the quadric error is minimised. The upsampling operations are created while performing the downsampling: the coordinates of the decimated vertices with respect to the remaining vertices are stored for each layer. 
+
+The inputs to the autoencoder are the standardized deviations from the mean shape, in which each coordinate of each vertex of the mesh is divided by its own standard deviation (diagonal elements of $\textbf{C}$). By means of this vertex-wise normalisation we aim to prevent small variations in shape in some regions of the LV meshes to be overshadowed in the loss function by large variations in other areas. %\textcolor{red}{Actually, the input to the network belongs to $\mathbb{R}^{M\times 3}$, i.e. is a matrix where each channel  (column) corresponds to one spatial coordinate, but I need to come up with a good notation for this. The way it's written now makes it look like $\textbf{t}_i\in\mathbb{R}^{3M}$}.
+
+\paragraph{Variational Autoencoder.} A Kullback-Leibler (KL) divergence term was added to encourage statistical independence of the different components of the latent representation, which is expected to improve its interpretability \cite{ref_betavae}. We hypothesise that it will also contribute to producing features with higher heritability, i.e. good candidate phenotypes to perform GWAS on.
+
+To train a model with such a loss function, the framework of variational autoencoder (VAE) is utilised. In this framework, during the training phase the encoder maps the input into a probability distribution instead of a fixed vector. To emphasise this, we will replace the notation $E_\theta(\textbf{S})$ for the encoder network by $q_{\theta}(\textbf{Z}|\textbf{S})$, where $\textbf{Z}$ is now a random variable. During training, for the $j$-th latent variable (with $1\leq z_j\leq n_z$) two quantities are learned, $\mu_j$ and $\sigma_j$, and a realisation $z_j$ of the random variable $Z_j\sim\mathcal{N}(\mu_j, \sigma^2_j)$ is produced and passed through the decoder to generate the output mesh. The aforementioned KL-divergence term is then used to encourage the variational approximate posterior to be a multivariate Gaussian with a diagonal covariance structure. The regularisation term is computed as:
+
+\begin{align}
+\begin{split}
+\Omega(\mathbb{S}_\text{train}|\theta, \phi)&= \mathbb{E}_{\mathbf{s}\sim\hat{p}_{\text{train}}}\
+D_{\text{KL}}\Big(q_{\theta}(\textbf{Z}|\textbf{S})||\mathcal{N}(\mathbf{Z};\mathbf{0}, \mathbb{1}_{n_z})\Big)\\
+&=\mathbb{E}_{\mathbf{s}\sim\hat{p}_{\text{train}}}
+\frac{-1}{2n_z}\sum_{j=1}^{n_z}\Big(\log\sigma^2_j-\sigma^2_j-\mu^2_j+1\Big)
+\label{eq_regularisation}
+\end{split}
+\end{align}
+
+\noindent where $\mathbb{1}_{n}$ is the $n\times n$ identity matrix, $D_{\text{KL}}(p||q)$ is the Kullback-Leibler divergence between probability distributions $p$ and $q$, and $\hat{p}_{\text{train}}$ is the empirical probability distribution associated to $\mathbb{S}_\text{train}$.
+$D_{\text{KL}}(p||q):=\int p(x)\ln{\frac{p(x)}{q(x)}}dp(x)$. The last equality in equation \ref{eq_regularisation} arises
+from the formula for the KL divergence between two normal distributions where the second one is also standardised. During testing, the mode of the latent distribution, $\pmb{\mu}(\textbf{S})$, is the latent representation of the shape $\textbf{s}$. In the following, we will rename the weighting coefficient $\beta$ from Equation \ref{eq_loss_function} as $w_{\text{KL}}$ to make it more memorable.
+
+\subsection{GWAS}
+According to the traditional GWAS scheme, we tested each genetic variant, $X_i\in\{0,1,2\}$, for association with each latent variable $z_k$ through a univariate linear additive model of genetic effects:
+
+\begin{equation}
+z_k = \beta_{ik}X_i+\epsilon_{ik}
+\label{eq_gwas}
+\end{equation}
+
+\noindent where $\epsilon_{ik}$ is the component not explained by the genotype, assumed to be normally distributed. The null hypothesis tested is that $\beta_{ik}=0$. 
+
+Before GWAS, the phenotypes (i.e. latent variables) were adjusted for a set of covariates: sex, age, height, weight, BMI and diastolic and systolic blood pressure. The reason is that these particular covariates have been found to correlate with traditional cardiac indices, and we wish to correct for non-genetic factors affecting our phenotypes of interest. To do this adjustment, multivariate linear regression on these covariates was performed, then the residues of this regression were rank-inverse-normalized. The inverse-normalised residues are the new phenotypes to be tested within the GWAS framework. Only individuals with British ancestry were considered for the study, to avoid issues related to population stratification. This produced a sample size of \NCMRGBR individuals.
+
+% The outcome of GWAS is usually represented via the so-called Manhattan plots. In these plots, the horizontal axis corresponds to the genomic position of the SNP, where the different chromosomes are juxtaposed along the axis. The vertical axis measures the strength of the association, usually via $-\log_{10}(p)$, where $p$ is the $p$-value of the association as derived from the linear regression in Equation \ref{eq_gwas}.
