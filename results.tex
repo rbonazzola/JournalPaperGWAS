@@ -27,17 +27,45 @@ PLN plays a crucial role in cardiomyocyte calcium handling by acting as a primar
 \end{figure*}
 
 Mutations in PLN have a well-established relationship with dilated cardiomyopathy (DCM) \cite{ref_Eijgenraam}. Besides a recent study \cite{ref_pirruccello}, to the best of our knowledge this gene had not been reported in a GWAS of non-disease phenotypes. In \cite{ref_pirruccello}, PLN was found to be associated with LV end-diastolic and end-systolic volumes (LVEDV and LVESV). Interestingly, latent variable $z_0$ yielded a $p$-value lower than the associations reported therein ($10^{-16}$ and $10^{-10}$ for LVEDV and LVESV, respectively). Also, the PLN locus was the only association found for $z_0$, whereas for LV volumes the number of genome-wide significant associations is much higher. 
-While this can be regarded as a drawback of our unsupervised approach (since it did not either capture the phenotypic variability associated to those other genetic loci, or detect new ones), our results also suggest that the method allowed to more accurately pinpoint the phenotypic variation associated with PLN. \textcolor{gray}{We could say more on this regard: if you adjust the LVEDV for $z_0$, run GWAS again and see that the PLN signal disappears, then we can link that signal to $z_0$-mediated change of volume.}
+While this can be regarded as a drawback of our unsupervised approach (since it did not either capture the phenotypic variability associated to those other genetic loci, or detect new ones), our results also suggest that the method allowed to more accurately pinpoint the phenotypic variation associated with PLN. 
+
 Also interestingly, the shape variation associated with high positive values of $z_0$ follows the usual cardiac remodelling linked to DCM \cite{ref_dcm}
 
+\textcolor{purple}{The hypothesis that the PLN association with LV volume is actually mediated by a morphological change captured by $z_0$ was tested. To do this, LV volume was tested in GWAS after being adjusted for $z_0$, however the PLN association remained significant (see supplementary material), suggesting that PLN controls these phenotypes independently.}
+
+% UNSCALED MESHES
 For unscaled meshes, several genome-wide significant associations were found, after further adjusting the $p$-value threshold for the number of latent variables tested ($n_z=8$ in this case). As observed for scaled meshes, all the associations belonged to a single latent variable, which we will call $z_1$. The Manhattan plots and synthetic shapes produced by varying $z_1$ around the mean shape are displayed in figure \ref{fig:manhattan_LV_latent_unscaled}. Visual inspection of the effect of varying $z_1$ on the reconstructed LV shape indicates that the most salient feature is a change in mitral orientation.
 
 % Notably, the strongest SNP association ($p=10^{-13}$) was found in chromosome 5 and had not been reported in the recent GWAS of LV phenotypes \cite{ref_nayaung, ref_pirruccello}. This SNP lies within the coding region of gene ARHGAP26. However, no further evidence was found in the literature supporting that this is the mediating gene. Likewise for the locus in chromosome 8 regarding gene CSMD1 ($p=10^{-10}$). Chromosome 6 contains two significant loci: one of them corresponds again to gene PLN, although with a weaker association this time ($p=10^{-8}$); the other locus is located 20 megabase pairs away from the previous ($p=10^{-9})$. The locus at chromosome 2 ($p=10^{-9}$) has been reported in  \cite{ref_nayaung, ref_pirruccello} and mapped to gene TTN. This gene encodes for protein titin, which is  responsible  for  the  sarcomere  assembly of the myocytes, which determines stretching, contraction and passive stiffness of the myocardium \cite{granzier_giant_2004}. Validation and interpretation of the genetic loci found will require further investigation.
 
-\subsection*{Relation to traditional indices}
-\textcolor{gray}{Spearman correlation against volume, mass, sphericity, etc. Run GWAS of traditional indices after adjusting for latent features}
+\subsection*{Relation to demographic data}
+Spearman correlation of latent variables with demographic data was computed and is displayed in figure \ref{fig:relation_to_demographic}.
+Interestingly, for scaled meshes, latent variable $z_4$ is significantly correlated with DBP, SBP, BMI and sex (but not with height), whereas latent variable $z_5$ (linked with PLN) is not strongly linked with any demographic variable.
+
+\begin{figure}[ht!]
+\includegraphics[width=0.5\textwidth]{figs/correlation/experiment_1_vs_demographic_data}A
+\includegraphics[width=0.5\textwidth]{figs/correlation/experiment_2_vs_demographic_data}B
+\label{fig:relation_to_demographic}
+\caption{Spearman correlation of the latent variables with demographic data for all the cardiac chambers, for CoMA experiments performed on a) scaled and b) unscaled cardiac meshes.}
+\end{figure}
+
+\subsection*{Relation to traditional cardiac indices}
+In order to further characterise the latent variables found, their Spearman correlation with several cardiac indices was computed. These quantities were derived from the cardiac 3D meshes. (Details are explained in the supplementary material.) 
+Figure \ref{fig:relation_to_indices} shows the strength of such correlations.
+It can be seen that latent variable $z_5$ correlates strongly with sphericity index as was seen in figure \ref{fig:manhattan_LV_latent} for synthetic LV meshes.
+
+\begin{figure}[ht!]
+\includegraphics[width=0.5\textwidth]{figs/correlation/experiment_1_vs_cardiac_indices}A
+\includegraphics[width=0.5\textwidth]{figs/correlation/experiment_2_vs_cardiac_indices}B
+\label{fig:relation_to_indices}
+\caption{Spearman correlation of the latent variables with traditional cardiac indices for all the cardiac chambers, for CoMA experiments performed on a) scaled and b) unscaled cardiac meshes.}
+\end{figure}
+
+\subsection*{Relation to health outcomes}
+A $t$-test was conducted to determine whether the latent variables were significantly different for subjects with specific cardiac diseases, as compared to people without such diagnoses. To do this, ICD10 codes provided by the UK Biobank were used.
+
 
 \subsection*{Heritability analysis}
 \textcolor{gray}{Run LD-score regression or GCTA-GREML to estimate heritability of the latent features.}
 
-\subsection*{Transcriptome-wide associations studies (TWAS)}
+% \subsection*{Transcriptome-wide associations studies (TWAS)}

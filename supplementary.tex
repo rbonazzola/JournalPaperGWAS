@@ -51,7 +51,7 @@
 
 \affil[*]{scrb@leeds.ac.uk}
 
-\maketitle              % typeset the header of the contribution
+% \maketitle              % typeset the header of the contribution
 
 \section{Code and data}
 The code used to produce the results of this paper has been provided in two folders:  \code{CoMA} and \code{GWAS\_pipeline}. The first one contains the code for executing the CoMA experiments, the other contains the code for performing GWAS and generating the associated plots.
@@ -114,13 +114,27 @@ Figure \ref{fig:z_distribution} shows the distribution of the latent variables p
  \label{fig:z_distribution}
 \end{figure}
 
-\subsubsection{Relation with health outcomes}
+\subsubsection{Relation with other variables}
 \textcolor{blue}{Check selection criteria of subjects who undergo CMR imaging.}
 
 \textcolor{blue}{UK Biobank individuals with CMR images who have cardiac pathologies are scarce in number due to the selection criteria for individuals who undergo CMR imaging.}
 
+Sphericity index was calculated as following. First, the convex hull of each cardiac mesh was obtained, and then the surface area $A$ and volume $V$ of the convex hull was computed. The sphericity was obtained as $\text{Sph}=(36\pi V)^{2/3}$, which is tantamount to the inverse of the ratio of the surface area $A$ and the surface area of a sphere with volume $V$the same volume $V$ as the convex hull.
+
 \subsection{GWAS}
 
+
+\subsubsection{LVEDV adjusted for $z_0$}
+\textcolor{purple}{LV volume was tested in GWAS after being adjusted for $z_0$, however the PLN association remained significant (see figure \ref{fig:LVEDV_adj_by_z5}), suggesting that PLN controls these phenotypes independently.}
+
+\begin{figure}[ht!]
+\includegraphics[width=\textwidth]{figs/supplementary/GWAS__LVEDV__std_covariates_adj_by_z5__GBR_ALL__qc__manhattan}
+\label{fig:LVEDV_adj_by_z5}
+\end{figure}
+
+
+
+\subsubsection{Q-Q plots}
 In this section, we provide quantile-quantile plots, or Q-Q plots, for the GWAS that yielded significant associations. % For the readers' convenience, we explain how to interpret these plots in the following paragraph. 
 
 % A Q-Q plot is simply a way to compare two frequency distributions, $p_1$ and $p_2$, where $\int p_i(x)dx=1$. If $p_1$ and $p_2$ are continuous distributions, the associated Q-Q plot is built by matching the values that correspond to the same quantiles en each distribution, i.e. the graph is given by $\{(x,y): \int_{-\infty}^xp_1(t)dt=\int_{-\infty}^yp_2(t')dt'\}$
