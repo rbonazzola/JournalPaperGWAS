@@ -54,13 +54,11 @@
 % \maketitle              % typeset the header of the contribution
 
 \section{Code and data}
-The code used to produce the results of this paper has been provided in two folders:  \code{CoMA} and \code{GWAS\_pipeline}. The first one contains the code for executing the CoMA experiments, the other contains the code for performing GWAS and generating the associated plots.
+% The code used to produce the results of this paper has been provided in two folders:  \code{CoMA} and \code{GWAS\_pipeline}. The first one contains the code for executing the CoMA experiments, the other contains the code for performing GWAS and generating the associated plots.
 
 The genetic and imaging data used for this work has been downloaded from the UK Biobank (UKB). Since this is protected data for which access must be granted by the UKB, it has not been included in this submission.
 
 % \newline
-\textbf{Morphological interpretation of the latent basis.} An interpretation of the impact of each of the components of the latent basis on LV morphology was achieved by varying the components of the latent space one at a time and generating the associated synthetic shapes by means of the trained decoder. % heat map showing the deviations from the mean shape. 
-In the main text of this paper, only those components that yielded Bonferroni-significant SNP associations are shown, along with the corresponding Manhattan plots. The rest of them are included in this supplementary material.
 
 \section{Dimensionality reduction and GWAS}
 
@@ -105,6 +103,8 @@ The network training was performed on MULTI-X, our middleware software platform 
 
 \subsection{Latent space}
 
+\subsubsection{Statistical properties}
+
 Figure \ref{fig:z_distribution} shows the distribution of the latent variables produced by the VAE experiment on scaled meshes and presented in the main text. As stated there, these results show that, as expected, the variables are isotropic and statistically independent.
 
 \begin{figure}
@@ -114,6 +114,9 @@ Figure \ref{fig:z_distribution} shows the distribution of the latent variables p
  \label{fig:z_distribution}
 \end{figure}
 
+\subsubsection{Interpretation of the latent basis.} An interpretation of the impact of each of the components of the latent basis on LV morphology was achieved by varying the components of the latent space one at a time and generating the associated synthetic shapes by means of the trained decoder. % heat map showing the deviations from the mean shape. 
+In the main text of this paper, only those components that yielded Bonferroni-significant SNP associations are shown, along with the corresponding Manhattan plots. The rest of them are included in this supplementary material.
+
 \subsubsection{Relation with other variables}
 
 Sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then the surface area $A$ and volume $V$ of the convex hull was computed. The sphericity was obtained as $\text{Sph}=(36\pi V)^{2/3}$, which is tantamount to the inverse of the ratio of the surface area $A$ and the surface area of a sphere with the same volume $V$ as the convex hull.
@@ -122,6 +125,7 @@ Sphericity index was calculated as follows: first, the convex hull of each cardi
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_2_health_outcome_t-test}
 \label{fig:health_outcomes}
+\caption{}
 \end{figure}
 
 
@@ -134,7 +138,6 @@ Sphericity index was calculated as follows: first, the convex hull of each cardi
 \includegraphics[width=\textwidth]{figs/supplementary/GWAS__LVEDV__std_covariates_adj_by_z5__GBR_ALL__qc__manhattan}
 \label{fig:LVEDV_adj_by_z5}
 \end{figure}
-
 
 
 \subsubsection{Q-Q plots}
