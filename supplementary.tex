@@ -95,8 +95,8 @@ ChebConv  & $28\times 32$ &  $28\times 32$\\ \hline
 FC        & $28\times 32$ &  $8\times 1$\\ \hline
 \end{tabular}
 \end{center}
-\label{table:AE_arch}
 \caption{Architecture of the encoder part used for each of the cardiac chambers. The decoder has the same architecture but reading from the bottom upwards and inverting input and output. (ChebConv: Chebyshev convolution, DS: downsampling, FC: fully connected layer.)}
+\label{table:AE_arch}
 \end{table}
 
 The network training was performed on MULTI-X, our middleware software platform to distribute the computational load on Amazon Web Services EC2 virtual machines (in particular P2 instances with NVidia Tesla K80 GPUs), and using on-premise computational resources endowed with NVidia Tesla M60 GPUs. The code used to generate these results is publicly available at \url{www.github.com/rbonazzola/cardiac\_coma} % \textcolor{red}{The current URL is \url{www.github.com/rbonazzola/pytorch\_coma/tree/cardiac\_develop}.
@@ -124,18 +124,19 @@ Sphericity index was calculated as follows: first, the convex hull of each cardi
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_2_health_outcome_t-test}
+\caption{$-log_{10}(p)$ for the $t$-tests of the latent variables on different health outcomes provided by the UK Biobank. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
 \label{fig:health_outcomes}
-\caption{}
 \end{figure}
 
 
 \subsection{GWAS}
 
-\subsubsection{LVEDV adjusted for $z_0$}
+\subsubsection{GWAS on adjusted LVEDV}
 \textcolor{purple}{LV volume was tested in GWAS after being adjusted for $z_0$, however the PLN association remained significant (see figure \ref{fig:LVEDV_adj_by_z5}), suggesting that PLN controls these phenotypes independently.}
 
 \begin{figure}[ht!]
 \includegraphics[width=\textwidth]{figs/supplementary/GWAS__LVEDV__std_covariates_adj_by_z5__GBR_ALL__qc__manhattan}
+\caption{Manhattan plot showing the outcome on GWAS on LVEDV after adjusting for latent variable $z_0^{(\text{s})}$}
 \label{fig:LVEDV_adj_by_z5}
 \end{figure}
 
