@@ -1,4 +1,4 @@
-\appendix
+% \appendix
 \section{Methods}
 Figure \ref{fig:flowchart} summarises the proposed workflow. The details of each step are outlined in subsequent subsections. First, we extract a mesh representation of the anatomical structures. In this case, we extracted 3D meshes representing the LV from CMR images of the UK Biobank database using a fully automatic segmentation method \cite{ref_rahman}. We then learn a low-dimensional representation of the 3D meshes which captures anatomical variations using an encoder-decoder model. All meshes are then projected to this latent space to derive a small number of shape descriptors (or latent variables) for each mesh. These features are finally used in GWAS to discover genetic variants associated with shape patterns. 
 

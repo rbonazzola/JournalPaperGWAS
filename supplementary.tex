@@ -117,9 +117,23 @@ Figure \ref{fig:z_distribution} shows the distribution of the latent variables p
 \subsubsection{Interpretation of the latent basis.} An interpretation of the impact of each of the components of the latent basis on LV morphology was achieved by varying the components of the latent space one at a time and generating the associated synthetic shapes by means of the trained decoder. % heat map showing the deviations from the mean shape. 
 In the main text of this paper, only those components that yielded Bonferroni-significant SNP associations are shown, along with the corresponding Manhattan plots. The rest of them are included in this supplementary material.
 
+\begin{figure}
+\includegraphics[width=\textwidth]{figs/supplementary/experiment_1_synthetic_meshes}
+\caption{}
+\label{fig:experiment_1_synthetic_meshes}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=\textwidth]{figs/supplementary/experiment_2_synthetic_meshes}
+\caption{}
+\label{fig:experiment_2_synthetic_meshes}
+\end{figure}
+
+
+
 \subsubsection{Relation with other variables}
 
-Sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then the surface area $A$ and volume $V$ of the convex hull was computed. The sphericity was obtained as $\text{Sph}=(36\pi V)^{2/3}$, which is tantamount to the inverse of the ratio of the surface area $A$ and the surface area of a sphere with the same volume $V$ as the convex hull.
+Sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then its surface area $A_{\text{CH}}$ and volume $V_{\text{CH}}$ of the convex hull. The sphericity was obtained as $\text{Sph}=(36\pi V_{\text{CH}})^{2/3}$, which is tantamount to the inverse of the ratio of $A_{\text{CH}}$ and the surface area of a sphere with volume $V_{\text{CH}}$.
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
