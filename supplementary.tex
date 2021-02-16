@@ -1,16 +1,20 @@
-\documentclass[fleqn,10pt]{wlscirep}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{times}
-\usepackage{epsfig}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{soul}
-\usepackage{xcolor}
-\usepackage{mathbbol}
-\usepackage{multicol}
-\usepackage[numbers,sort&compress]{natbib}
+\pagebreak
+\widetext
+\begin{center}
+\textbf{\large Supplemental Materials: Unsupervised deep learning helps disentangle the genetic basis of cardiac morphology}
+\end{center}
+%%%%%%%%%% Merge with supplemental materials %%%%%%%%%%
+%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\setcounter{page}{1}
+\makeatletter
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\bibnumfmt}[1]{[S#1]}
+\renewcommand{\citenumfont}[1]{S#1}
+%%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
 
 \newcommand{\NCMRGBR}{29,103\,}
 \newcommand{\NCALLS}{801,526\,} % Number of genotyped SNPs 
@@ -26,32 +30,6 @@
 \newcommand{\ACCESSIONNUMBER}{11350}
 
 \def\code#1{\texttt{#1}} 
-
-\usepackage{graphicx}
-
-\begin{document}
-\title{Unsupervised deep learning helps disentangle the genetic basis of cardiac morphology: Supplementary Material}
-
-\author[1,2,*]{Rodrigo Bonazzola}
-\author[1,2]{Andres Diaz-Pinto}
-\author[1,2]{Avan Suinesiaputra}
-\author[1,2]{Rahman Attar}
-\author[1,2]{Nishant Ravikumar}
-\author[2]{Eylem Levelt}
-\author[2]{Sven Plein}
-\author[3]{Enzo Ferrante}
-\author[4]{Tanveer Syeda-Mahmood}
-\author[1,2,5]{Alejandro F Frangi}
-\affil[1]{Centre for Computational Imaging and Simulation Technologies in Biomedicine (CISTIB), School of Computing and School of Medicine, University of Leeds, Leeds, UK}
-\affil[2]{Leeds Institute of Cardiovascular and Metabolic Medicine, School of Medicine, University of Leeds, Leeds, UK}
-\affil[3]{Research Institute for Signals, Systems and Computational Intelligence, sinc(i), FICH-UNL / CONICET, Santa Fe, Argentina}
-\affil[4]{IBM Almaden Research Center, San Jose, USA
-}
-\affil[5]{Medical Imaging Research Center (MIRC), University Hospital Gasthuisberg. Cardiovascular Sciences and Electrical Engineering Departments, KU Leuven, Leuven, Belgium}
-
-\affil[*]{scrb@leeds.ac.uk}
-
-% \maketitle              % typeset the header of the contribution
 
 \section{Code and data}
 % The code used to produce the results of this paper has been provided in two folders:  \code{CoMA} and \code{GWAS\_pipeline}. The first one contains the code for executing the CoMA experiments, the other contains the code for performing GWAS and generating the associated plots.
@@ -176,5 +154,3 @@ Figures \ref{fig:qq_scaled} and \ref{fig:qq_unscaled} show the Q-Q plots for the
  \caption{Q-Q plots for the GWAS on each of the 8 latent variables of unscaled LV meshes (i.e. meshes preserving the original scale from the images). Latent variable $z_1$, presented in the main text, is the only one showing significant associations.}
  \label{fig:qq_unscaled}
 \end{figure}
-
-\end{document}
