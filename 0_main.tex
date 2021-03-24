@@ -13,11 +13,11 @@
 \usepackage{multicol}
 \usepackage[numbers,sort&compress]{natbib}
 
-\newcommand{\NCMRGBR}{29,103\,}
+\newcommand{\NCMRGBR}{29,051\,}
 \newcommand{\NCALLS}{801,526\,} % Number of genotyped SNPs 
 \newcommand{\MAFTHR}{1\% } % MAF threshold (in percentage)
-\newcommand{\NIMP}{more than 90 million\,} % number of imputed variants with MAF > threshold
-\newcommand{\HWEPVAL}{$10^{-6}$} % Hardy-Weinberg equilibrium p-value threshold
+\newcommand{\NIMP}{9472708} % number of % number of imputed variants with MAF > threshold
+\newcommand{\HWEPVAL}{$10^{-5}$} % Hardy-Weinberg equilibrium p-value threshold
 \newcommand{\LVNP}{2,677} % number of points in the LV mesh
 \newcommand{\NGWASHITS}{10}
 
@@ -29,12 +29,8 @@
 \title{Unsupervised deep learning helps disentangle the genetic basis of cardiac morphology}
 
 \author[1,2,*]{Rodrigo Bonazzola}
-\author[1,2]{Andres Diaz-Pinto}
-\author[1,2]{Rahman Attar}
 \author[1,2]{Nishant Ravikumar}
 \author[1,2]{Avan Suinesiaputra}
-\author[1,2]{Francisco Ibarrola}
-\author[2]{Eylem Levelt}
 \author[6,7]{Bernard Keavney}
 \author[2]{Sven Plein}
 \author[3]{Enzo Ferrante}
@@ -52,7 +48,7 @@
 
 
 \begin{abstract}
-Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness. The emergence of big databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with high spatial and temporal resolution provides the means to describe more complex shape patterns. However, the high dimensionality of these images makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we exploit the UK Biobank database to extract left-ventricular geometric features from image-derived 3D meshes in an unsupervised fashion, via convolutional mesh autoencoders. These features are then tested in a genome-wide association study in order to unravel the genetic basis of cardiac morphology. Our results shed light on the role of gene phospholamban (PLN) in cardiac shape variation. In particular, our approach allowed to find a link between this gene and LV sphericity which had not been reported previously.
+Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness. The emergence of big databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with high spatial and temporal resolution facilitates investigation of more nuanced shape patterns.. However, the high dimensionality of these images makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we exploit the UK Biobank database to extract left-ventricular geometric features from image-derived 3D meshes in an unsupervised fashion, via convolutional mesh autoencoders. These features are then tested in a genome-wide association study in order to unravel the genetic basis of cardiac morphology. Our results shed light on the role of gene phospholamban (PLN) in cardiac shape variation. In particular, our approach allowed to find a link between this gene and LV sphericity which had not been reported previously.
 
 % Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness. The emergence of big databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with high spatial and temporal resolution provides the means to describe more complex shape patterns. However, the high dimensionality of these images makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we propose a framework which combines geometric deep learning with genome-wide association studies to disclose novel links between cardiac anatomy and the underlying genetic basis. We construct convolutional mesh autoencoders to learn low-dimensional representations of cardiac meshes, and show that such embeddings encode anatomical variations linked to genetic differences. Our experimental results demonstrate that the proposed framework not only finds well-known genetic associations for cardiac shape changes, but also reveals novel links which open the door for future biomedical research.
 \end{abstract}
@@ -66,20 +62,19 @@ Recent studies have identified associations between genetic variants and simple 
 
 % \input{legend}
 
-\input{introduction}
+\input{1_introduction}
 
-\input{methods}
+\input{2_methods}
 
-\input{results}
+\input{3_results}
 
-\input{conclusions}
+\input{4_conclusions}
 
 % \section*{Discussion}
 
 % Topical subheadings are allowed. Authors must ensure that their Methods section includes adequate experimental and characterization data necessary for others in the field to reproduce their work.
 
 {\small
-% \bibliographystyle{ieee_fullname}
 \bibliography{gwas_cardiomorpho.bib}
 }
 
@@ -93,11 +88,8 @@ Acknowledgements should be brief, and should not include thanks to anonymous ref
 
 \section*{Author contributions statement}
 R.B.,\newline 
-A.D.P,\newline 
-R.A.,\newline 
 N.R.,\newline 
 A.S.,\newline 
-F.I.,\newline
 T.S.M.,\newline 
 E.F.,\newline 
 A.F.,\newline 
@@ -110,7 +102,7 @@ To include, in this order: \textbf{Accession codes} (where applicable); \textbf{
 The corresponding author is responsible for submitting a \href{http://www.nature.com/srep/policies/index.html#competing}{competing interests statement} on behalf of all authors of the paper. This statement must be included in the submitted article file.
 
 % \appendix
-\include{supplementary}
+\include{5_supplementary}
 \end{document}
 
 

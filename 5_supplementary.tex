@@ -1,5 +1,4 @@
 \pagebreak
-\widetext
 \begin{center}
 \textbf{\large Supplemental Materials: Unsupervised deep learning helps disentangle the genetic basis of cardiac morphology}
 \end{center}
@@ -16,29 +15,16 @@
 \renewcommand{\citenumfont}[1]{S#1}
 %%%%%%%%%% Prefix a "S" to all equations, figures, tables and reset the counter %%%%%%%%%%
 
-\newcommand{\NCMRGBR}{29,103\,}
-\newcommand{\NCALLS}{801,526\,} % Number of genotyped SNPs 
-\newcommand{\MAFTHR}{1\% } % MAF threshold (in percentage)
-\newcommand{\NIMP}{more than 90 million\,} % number of imputed variants with MAF > threshold
-\newcommand{\HWEPVAL}{$10^{-6}$} % Hardy-Weinberg equilibrium p-value threshold
-\newcommand{\LVNP}{2,677} % number of points in the LV mesh
-\newcommand{\NGWASHITS}{10}
-
-% ANONYMISED VERSION 
-% \newcommand{\ACCESSIONNUMBER}{---}
-
-\newcommand{\ACCESSIONNUMBER}{11350}
-
 \def\code#1{\texttt{#1}} 
 
-\section{Code and data}
+\section*{Code and data}
 % The code used to produce the results of this paper has been provided in two folders:  \code{CoMA} and \code{GWAS\_pipeline}. The first one contains the code for executing the CoMA experiments, the other contains the code for performing GWAS and generating the associated plots.
 
 The genetic and imaging data used for this work has been downloaded from the UK Biobank (UKB). Since this is protected data for which access must be granted by the UKB, it has not been included in this submission.
 
 % \newline
 
-\section{Dimensionality reduction and GWAS}
+\section*{Dimensionality reduction and GWAS}
 
 Different dimensions of the latent space $n_z$ and weights $w_{\textrm{KL}}$ were studied, the aim being to achieve a compromise between reconstruction error and interpretability (and hence heritability) of the components.
 
@@ -52,7 +38,7 @@ Also, adding the $D_\textrm{KL}$ regularisation term leads to the expected stati
 \label{fig:pca_vs_coma}
 \end{figure}
 
-\subsection{Implementation details}
+\subsection*{Implementation details}
 For the autoencoder, we ran a grid optimisation scheme for meta-parameter selection, both for the architecture and the learning process. For each number of components $n_z$ and regularisation weight $w_\textrm{KL}$, the execution that presented the minimum mean squared error (MSE) within the validation set was chosen.
 The autoencoder architecture is explained in table \ref{table:AE_arch}. After each convolutional layer, a ReLU activation function was applied. The number of samples used for training was 5,000, whereas the validation set contained 1,000 individuals. Adam optimiser was used to find optimal network parameters, by minimising the MSE reconstruction loss.
 
@@ -79,9 +65,7 @@ FC        & $28\times 32$ &  $8\times 1$\\ \hline
 
 The network training was performed on MULTI-X, our middleware software platform to distribute the computational load on Amazon Web Services EC2 virtual machines (in particular P2 instances with NVidia Tesla K80 GPUs), and using on-premise computational resources endowed with NVidia Tesla M60 GPUs. The code used to generate these results is publicly available at \url{www.github.com/rbonazzola/cardiac\_coma} % \textcolor{red}{The current URL is \url{www.github.com/rbonazzola/pytorch\_coma/tree/cardiac\_develop}.
 
-\subsection{Latent space}
-
-\subsubsection{Statistical properties}
+\subsection{Statistical properties of the latent variables}
 
 Figure \ref{fig:z_distribution} shows the distribution of the latent variables produced by the VAE experiment on scaled meshes and presented in the main text. As stated there, these results show that, as expected, the variables are isotropic and statistically independent.
 
@@ -92,34 +76,31 @@ Figure \ref{fig:z_distribution} shows the distribution of the latent variables p
  \label{fig:z_distribution}
 \end{figure}
 
-\subsubsection{Interpretation of the latent basis.} An interpretation of the impact of each of the components of the latent basis on LV morphology was achieved by varying the components of the latent space one at a time and generating the associated synthetic shapes by means of the trained decoder. % heat map showing the deviations from the mean shape. 
+\subsection{Interpretation of the latent variables.} An interpretation of the impact of each of the components of the latent basis on LV morphology was achieved by varying the components of the latent space one at a time (while keeping the rest fixed at zero) and generating the associated synthetic shapes by means of the trained decoder. % heat map showing the deviations from the mean shape. 
 In the main text of this paper, only those components that yielded Bonferroni-significant SNP associations are shown, along with the corresponding Manhattan plots. The rest of them are included in this supplementary material.
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figs/supplementary/experiment_1_synthetic_meshes}
-\caption{}
-\label{fig:experiment_1_synthetic_meshes}
-\end{figure}
-
-\begin{figure}
 \includegraphics[width=\textwidth]{figs/supplementary/experiment_2_synthetic_meshes}
-\caption{}
+\caption{Effect of each latent variable on LV morphology, for CoMA experiment performed on unscaled meshes.}
 \label{fig:experiment_2_synthetic_meshes}
 \end{figure}
 
+\begin{figure}
+\includegraphics[width=\textwidth]{figs/supplementary/experiment_1_synthetic_meshes}
+\caption{Effect of each latent variable on LV morphology, for CoMA experiment performed on scaled meshes.}
+\label{fig:experiment_1_synthetic_meshes}
+\end{figure}
 
 
-\subsubsection{Relation with other variables}
-
-Sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then its surface area $A_{\text{CH}}$ and volume $V_{\text{CH}}$ of the convex hull. The sphericity was obtained as $\text{Sph}=(36\pi V_{\text{CH}})^{2/3}$, which is tantamount to the inverse of the ratio of $A_{\text{CH}}$ and the surface area of a sphere with volume $V_{\text{CH}}$.
+\subsection*{Relation with other variables}
+\textbf{Sphericity}: sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then its surface area $A_{\text{CH}}$ and volume $V_{\text{CH}}$ of the convex hull. The sphericity was obtained as $\text{Sph}=(36\pi V_{\text{CH}})^{2/3}$, which is tantamount to the inverse of the ratio of $A_{\text{CH}}$ and the surface area of a sphere with volume $V_{\text{CH}}$.
 
 \begin{figure}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
 \includegraphics[width=0.5\textwidth]{figs/diseases/experiment_2_health_outcome_t-test}
-\caption{$-log_{10}(p)$ for the $t$-tests of the latent variables on different health outcomes provided by the UK Biobank. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
+\caption{$-\log_{10}(p)$ for the $t$-tests of the latent variables on different health outcomes provided by the UK Biobank. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
 \label{fig:health_outcomes}
 \end{figure}
-
 
 \subsection{GWAS}
 
