@@ -96,16 +96,21 @@ In the main text of this paper, only those components that yielded Bonferroni-si
 \textbf{Sphericity}: sphericity index was calculated as follows: first, the convex hull of each cardiac mesh was obtained, and then its surface area $A_{\text{CH}}$ and volume $V_{\text{CH}}$ of the convex hull. The sphericity was obtained as $\text{Sph}=(36\pi V_{\text{CH}})^{2/3}$, which is tantamount to the inverse of the ratio of $A_{\text{CH}}$ and the surface area of a sphere with volume $V_{\text{CH}}$.
 
 \begin{figure}
-\includegraphics[width=0.5\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
-\includegraphics[width=0.5\textwidth]{figs/diseases/experiment_2_health_outcome_t-test}
-\caption{$-\log_{10}(p)$ for the $t$-tests of the latent variables on different health outcomes provided by the UK Biobank. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
-\label{fig:health_outcomes}
+\includegraphics[width=0.8\textwidth]{figs/diseases/experiment_2_health_outcome_t-test}
+\caption{Unscaled meshes: $-\log_{10}(p)$ for the $t$-tests of the latent variables on different cardiovascular health outcomes provided by the UK Biobank, corresponding to chapter 9, or letter I, of the ICD10 codes. The null hypothesis is that the mean of the latent features is the same for each group (diseased and non-diseased) Only those diseases for which at least one $p$-value is less than 0.01 are shown. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
+\label{fig:health_outcomes_unscaled}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.8\textwidth]{figs/diseases/experiment_1_health_outcome_t-test}
+\caption{Scaled meshes: $-\log_{10}(p)$ for the $t$-tests of the latent variables on different cardiovascular health outcomes provided by the UK Biobank, corresponding to chapter 9, or letter I, of the ICD10 codes. The null hypothesis is that the mean of the latent features is the same for each group (diseased and non-diseased) Only those diseases for which at least one $p$-value is less than 0.01 are shown. $p$-values lower than $10^{-8}$ have been thresholded to $10^{-8}$.}
+\label{fig:health_outcomes_scaled}
 \end{figure}
 
 \subsection{GWAS}
 
 \subsubsection{GWAS on adjusted LVEDV}
-\textcolor{purple}{LV volume was tested in GWAS after being adjusted for $z_0$, however the PLN association remained significant (see figure \ref{fig:LVEDV_adj_by_z5}), suggesting that PLN controls these phenotypes independently.}
+LV volume was tested in GWAS after being adjusted for $z_0$, however the PLN association remained significant (see figure \ref{fig:LVEDV_adj_by_z5}), suggesting that PLN has a pleiotropic effect, controlling these phenotypes independently.
 
 \begin{figure}[ht!]
 \includegraphics[width=\textwidth]{figs/supplementary/GWAS__LVEDV__std_covariates_adj_by_z5__GBR_ALL__qc__manhattan}

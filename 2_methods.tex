@@ -15,7 +15,7 @@ SNP microarray data is available for all the individuals in the UKB cohort. This
 %SNPs are single base-pair changes in the DNA sequence that occur with relatively high frequency in the human genome, and represent the most common form of genetic variation in humans. 
 The SNP microarrays used in UKB have been described in \cite{ref_ukbb_genetics}. From these genotyped markers, an augmented set of more than 90 millions variants was imputed. The GWAS was performed across the latter dataset, in particular on the autosomes (chromosomes 1 through 22). % The sex chromosomes (X and Y) require a special treatment and are left for future investigation.
 
-The usual quality control steps on the genetic data were performed. This included filtering out rare variants using a threshold for MAF of 1\% (within the subcohort of \NCMRGBR subjects), Hardy-Weinberg equilibrium $p$-value less than $10^{-5}$ and low imputation information score (less than 0.3). This results in set of \NCMRGBR genetic variants. %high call missingness rates (greater than 10\%). 
+The usual quality control steps on the genetic data were performed. This included filtering out rare variants using a threshold for MAF of 1\% (within the subcohort of \NCMRGBR subjects), Hardy-Weinberg equilibrium $p$-value less than $10^{-5}$ and low imputation information score (less than 0.3). This results in set of \NIMP genetic variants. %high call missingness rates (greater than 10\%). 
 
 %% Should this go here?
 % Likewise, individuals with high genotype missingness rates were excluded from the analysis.
@@ -29,7 +29,7 @@ The usual quality control steps on the genetic data were performed. This include
 %\paragraph{Mesh pre-processing.} 
 Given the set of meshes representing the anatomical structure of interest (LV meshes), the pose-sensitive parameters (translation and rotation) were removed using generalised Procrustes analysis. Moreover, since we are interested in understanding the relation between genetic variation and shape patterns, we performed different experiments to understand the impact of mesh scaling in the resulting associations. We considered two scenarios, with and without scaling the meshes: we will use the nomenclature \{$\textbf{S}_{i}^{\text{unscaled}}\}_{i=1}^{N}$ for the set of meshes that preserve the scale of the original image, whereas the $\textbf{S}_{i}^{\text{scaled}}$ meshes are computed as $\textbf{S}_{i}^{\text{scaled}}/\bar{S}_i$, with $\bar{S}_i=(1/M)\sum_{\ell=1}^{M}(x_{i\ell}^2+y_{i\ell}^2+z_{i\ell}^2)^{\frac{1}{2}}$; however, this superscript will be dropped for convenience until we discuss the results for each case, since what follows is similar for both.
 
-Given a set of 3D shapes $\mathbb{S}=\{\textbf{S}_i\}_{i=1}^{N}$, we derive the mean shape and the shape covariance matrix $\textbf{C}$:
+Given a set of 3D shapes $\mathbb{S}=\{\textbf{S}_i\}_{i=1}^{N}$, we derive the mean shape $\bar{\textbf{S}}$ and the shape covariance matrix $\textbf{C}$:
 
 \begin{equation}
 \bar{\textbf{S}}=\frac{1}{N}\sum_{i=1}^{N}{\textbf{S}},
