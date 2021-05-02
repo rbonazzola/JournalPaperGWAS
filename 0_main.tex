@@ -30,6 +30,7 @@
 \title{Unsupervised deep learning helps disentangle the genetic basis of cardiac morphology}
 
 \author[1,2,*]{Rodrigo Bonazzola}
+\author[1,2]{Andres Diaz-Pinto}
 \author[1,2]{Nishant Ravikumar}
 \author[1,2]{Avan Suinesiaputra}
 \author[6,7]{Bernard Keavney}
@@ -45,11 +46,12 @@
 \affil[6]{Division of Cardiovascular Sciences, Faculty of Biology, Medicine and Health, University of Manchester, Manchester, UK}
 \affil[7]{Manchester University NHS Foundation Trust, Manchester Academic Health Science Centre, Manchester, UK}
 
-\affil[*]{scrb@leeds.ac.uk}
+% \affil[*]{scrb@leeds.ac.uk}
+\affil[*]{r.bonazzola1@leeds.ac.uk}
 
 
 \begin{abstract}
-Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness. The emergence of big databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with high spatial and temporal resolution facilitates investigation of more nuanced shape patterns.. However, the high dimensionality of these images makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we exploit the UK Biobank database to extract left-ventricular geometric features from image-derived 3D meshes in an unsupervised fashion, via convolutional mesh autoencoders. These features are then tested in a genome-wide association study in order to unravel the genetic basis of cardiac morphology. Our results shed light on the role of gene phospholamban (PLN) in cardiac shape variation. In particular, our approach allowed to find a link between this gene and LV sphericity which had not been reported previously.
+Abstract – Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness.  The emergence of extensive databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with a high spatial and temporal resolution, facilitates the investigation of more subtle shape patterns. However, these images' high dimensionality makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we exploit the UK Biobank database to extract left-ventricular geometric features from image-derived 3D meshes in an unsupervised fashion via convolutional mesh autoencoders. These features are then tested in a genome-wide association study to unravel the genetic basis of cardiac morphology. Our results shed light on the role of gene phospholamban (PLN) in cardiac shape variation. Our approach allowed us to find a link between this gene and LV sphericity, which had not been reported previously.
 
 % Recent studies have identified associations between genetic variants and simple cardiac parameters like the volume of heart chambers or myocardial thickness. The emergence of big databases, including genetic data linked to cardiac magnetic resonance (CMR) images, with high spatial and temporal resolution provides the means to describe more complex shape patterns. However, the high dimensionality of these images makes it challenging to find associations with genetic variants of potential clinical relevance. In this work, we propose a framework which combines geometric deep learning with genome-wide association studies to disclose novel links between cardiac anatomy and the underlying genetic basis. We construct convolutional mesh autoencoders to learn low-dimensional representations of cardiac meshes, and show that such embeddings encode anatomical variations linked to genetic differences. Our experimental results demonstrate that the proposed framework not only finds well-known genetic associations for cardiac shape changes, but also reveals novel links which open the door for future biomedical research.
 \end{abstract}
@@ -89,6 +91,7 @@ Acknowledgements should be brief, and should not include thanks to anonymous ref
 
 \section*{Author contributions statement}
 R.B.,\newline 
+A.D.P.,\newline 
 N.R.,\newline 
 A.S.,\newline 
 T.S.M.,\newline 
